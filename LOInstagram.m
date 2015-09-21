@@ -6,10 +6,10 @@
 //  Copyright (c) 2015年 Pamperologist. All rights reserved.
 //
 
-#import "FTInstagram.h"
+#import "LOInstagram.h"
 #import <AFNetworking.h>
 
-FTInstagram *instagramHelper;
+LOInstagram *instagramHelper;
 
 typedef void (^LoginCompleteHandler)(BOOL success, NSString *errorReason);
 
@@ -32,7 +32,7 @@ typedef enum {
 #define NSLog(s, ...)
 #endif
 
-@interface FTInstagram () {
+@interface LOInstagram () {
     LoginCompleteHandler loginCompleteHandler;
     
     NSString *nextPageUrl;
@@ -50,7 +50,7 @@ typedef enum {
 
 @end
 
-@implementation FTInstagram
+@implementation LOInstagram
 
 - (instancetype)init {
     self = [super init];
@@ -62,7 +62,7 @@ typedef enum {
 #pragma mark - public
 + (instancetype)shareInstance {
     if (!instagramHelper) {
-        instagramHelper = [[FTInstagram alloc] init];
+        instagramHelper = [[LOInstagram alloc] init];
     }
     return instagramHelper;
 }

@@ -8,7 +8,7 @@
 
 #import "ViewController.h"
 
-#import "FTInstagram.h"
+#import "LOInstagram.h"
 
 @interface ViewController ()
 
@@ -20,7 +20,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     
-    [[FTInstagram shareInstance] loginWithScope:@[@"basic",@"comments",@"likes",@"relationships"] Completion:^(BOOL success, NSString *errorReason) {
+    [[LOInstagram shareInstance] loginWithScope:@[@"basic",@"comments",@"likes",@"relationships"] Completion:^(BOOL success, NSString *errorReason) {
         if (success) {
             [self loadWithAPI];
         }else{
@@ -31,11 +31,11 @@
 
 -(void)loadWithAPI{
     
-    [[FTInstagram shareInstance] userInformationWithID:kSelf comepletion:^(NSDictionary *response) {
+    [[LOInstagram shareInstance] userInformationWithID:kSelf comepletion:^(NSDictionary *response) {
         NSLog(@"%@",response);
         NSLog(@"==================================================");
         
-        [[FTInstagram shareInstance] userRecentMediaWithID:kSelf comepletion:^(NSDictionary *response) {
+        [[LOInstagram shareInstance] userRecentMediaWithID:kSelf comepletion:^(NSDictionary *response) {
             NSLog(@"%@",response);
         } failure:^(NSError *error, NSString *message) {
             NSLog(@"%@",message);

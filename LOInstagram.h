@@ -12,7 +12,7 @@
 #define kSelf @"self"
 //to acess current user ,  @"self" instead @"user-id"
 typedef NSString *instagramUserID;
-@interface FTInstagram : NSObject
+@interface LOInstagram : NSObject
 
 + (BOOL)accessToken;
 

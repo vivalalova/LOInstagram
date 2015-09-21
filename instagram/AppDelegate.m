@@ -7,7 +7,7 @@
 //
 
 #import "AppDelegate.h"
-#import "FTInstagram.h"
+#import "LOInstagram.h"
 
 @interface AppDelegate ()
 
@@ -22,6 +22,6 @@
 }
 
 -(BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation{
-    return [[FTInstagram shareInstance] application:application openURL:url sourceApplication:sourceApplication annotation:annotation];
+    return [[LOInstagram shareInstance] application:application openURL:url sourceApplication:sourceApplication annotation:annotation];
 }
 @end
