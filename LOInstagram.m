@@ -84,6 +84,11 @@ typedef enum {
     // user denied example  :
     // "ig75655b039682459099fcf30cfad1990f:?error_reason=user_denied&error=access_denied&error_description=The+user+denied+your+request.";
     
+    NSLog(@"%@",application);
+    NSLog(@"%@",url);
+    NSLog(@"%@",sourceApplication);
+    NSLog(@"%@",self.redirectUri);
+    
     NSString *scheme = [self.redirectUri stringByReplacingOccurrencesOfString:@":" withString:@""];
     
     if ([[url scheme] isEqualToString:scheme]) {
@@ -91,6 +96,9 @@ typedef enum {
         NSString *parametersString = [[url resourceSpecifier] stringByReplacingOccurrencesOfString:@"?" withString:@""];
         NSArray *urlComponents = [parametersString componentsSeparatedByString:@"&"];
         NSMutableDictionary *parametersStringDictionary = [[NSMutableDictionary alloc] init];
+        
+        
+        NSLog(@"%@",parametersStringDictionary);
         
         for (NSString *keyValuePair in urlComponents) {
             NSArray *pairComponents = [keyValuePair componentsSeparatedByString:@"="];
@@ -103,7 +111,7 @@ typedef enum {
         if (parametersStringDictionary[@"#access_token"]) {
             self.token = parametersStringDictionary[@"#access_token"];
             
-            NSLog(@"NICE!!!");
+            NSLog(@"NICE!!!  token :%@",self.token);
             loginCompleteHandler(YES, nil);
             return YES;
         }
@@ -124,10 +132,13 @@ typedef enum {
     
     //https://api.instagram.com/v1/users/{user-id}
     NSString *url = [NSString stringWithFormat:@"%@/users/", kAPIBaseURL];
+    NSLog(@"%@",url);
     
     [self connectWithHTTPMethod:igCRUDMethod_GET URLString:url IDString:userID parameters:@{ @"access_token" : self.token } alertWithError:NO success:^(AFHTTPRequestOperation *operation, id response) {
+        NSLog(@"success");
         complete(response);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error, NSString *message) {
+        NSLog(@"fail");
         failure(error, message);
     }];
 }
@@ -203,8 +214,8 @@ typedef enum {
             });
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             dispatch_async(dispatch_get_main_queue(), ^{
-                NSDictionary *errUserInfo = [self parseErrorUserInfo:error];
-                failure(operation, error, errUserInfo[@"meta"][@"error_message"]);
+                NSString *errMessage = [self parseErrorUserInfo:error];
+                failure(operation, error, errMessage);
                 
                 if (isAlert) {
                     [self alertWithMessage:error.localizedDescription];
@@ -218,8 +229,8 @@ typedef enum {
             });
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             dispatch_async(dispatch_get_main_queue(), ^{
-                NSDictionary *errUserInfo = [self parseErrorUserInfo:error];
-                failure(operation, error, errUserInfo[@"meta"][@"error_message"]);
+                NSString *errMessage = [self parseErrorUserInfo:error];
+                failure(operation, error, errMessage);
                 
                 if (isAlert) {
                     [self alertWithMessage:error.localizedDescription];
@@ -233,8 +244,8 @@ typedef enum {
             });
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             dispatch_async(dispatch_get_main_queue(), ^{
-                NSDictionary *errUserInfo = [self parseErrorUserInfo:error];
-                failure(operation, error, errUserInfo[@"meta"][@"error_message"]);
+                NSString *errMessage = [self parseErrorUserInfo:error];
+                failure(operation, error, errMessage);
                 
                 if (isAlert) {
                     [self alertWithMessage:error.localizedDescription];
@@ -248,8 +259,8 @@ typedef enum {
             });
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             dispatch_async(dispatch_get_main_queue(), ^{
-                NSDictionary *errUserInfo = [self parseErrorUserInfo:error];
-                failure(operation, error, errUserInfo[@"meta"][@"error_message"]);
+                NSString *errMessage = [self parseErrorUserInfo:error];
+                failure(operation, error, errMessage);
                 
                 if (isAlert) {
                     [self alertWithMessage:error.localizedDescription];
@@ -263,8 +274,8 @@ typedef enum {
             });
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             dispatch_async(dispatch_get_main_queue(), ^{
-                NSDictionary *errUserInfo = [self parseErrorUserInfo:error];
-                failure(operation, error, errUserInfo[@"meta"][@"error_message"]);
+                NSString *errMessage = [self parseErrorUserInfo:error];
+                failure(operation, error, errMessage);
                 
                 if (isAlert) {
                     [self alertWithMessage:error.localizedDescription];
@@ -278,18 +289,8 @@ typedef enum {
     [[[UIAlertView alloc] initWithTitle:@"ERROR" message:message delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
 }
 
-- (NSDictionary *)parseErrorUserInfo:(NSError *)error {
-    NSData *data = error.userInfo[@"com.alamofire.serialization.response.error.data"];
-    
-    NSError *err;
-    NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&err];
-    
-    if (err) {
-        NSLog(@"%@", err);
-        return nil;
-    } else {
-        return dict;
-    }
+- (NSString *)parseErrorUserInfo:(NSError *)error {    
+    return error.userInfo[@"NSLocalizedDescription"];
 }
 
 #pragma mark - getter and setter

@@ -2,14 +2,19 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
 	<key>InstagramAppID</key>
-	<string>75655b039682459099fcf30cfad1990f</string>
+	<string>55508156958e43818984e619da632b6b</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>ig75655b039682459099fcf30cfad1990f</string>
+				<string>ig55508156958e43818984e619da632b6b</string>
 			</array>
 		</dict>
 	</array>
