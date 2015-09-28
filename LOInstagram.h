@@ -14,9 +14,13 @@
 typedef NSString *instagramUserID;
 @interface LOInstagram : NSObject
 
+@property (strong, nonatomic) NSString *token;
+
 + (BOOL)accessToken;
 
 + (instancetype)shareInstance;
+
++ (void)logout;
 
 - (void)loginWithScope:(NSArray *)scopes Completion:(void (^)(BOOL success, NSString *errorReason))complete;
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation;

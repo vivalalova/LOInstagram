@@ -7,7 +7,7 @@
 //
 
 #import "LOInstagram.h"
-#import <AFNetworking.h>
+#import "AFNetworking.h"
 
 LOInstagram *instagramHelper;
 
@@ -43,7 +43,6 @@ typedef enum {
 //@property (strong, nonatomic) NSString *clientSecret;
 @property (strong, nonatomic) NSString *redirectUri;
 
-@property (strong, nonatomic) NSString *token;
 
 //info.plist url types
 @property (strong, nonatomic) NSArray *infoPlistUrlType;
@@ -67,11 +66,17 @@ typedef enum {
     return instagramHelper;
 }
 
++(void)logout{
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:kKeyOfTokenWithUserDefault];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
 - (void)loginWithScope:(NSArray *)scopes Completion:(void (^)(BOOL success, NSString *errorReason))complete {
     NSString *authURL = [NSString stringWithFormat:@"%@/oauth/authorize/", kInstagramBaseURL];
     
     //array convert to string = value1+value2+value3
     NSString *scopesString = [[scopes valueForKey:@"description"] componentsJoinedByString:@"+"];
+    
     NSString *url = [NSString stringWithFormat:@"%@?client_id=%@&redirect_uri=%@&scope=%@&response_type=%@", authURL, self.clientID, self.redirectUri, scopesString, kToken];
     
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:url]];
@@ -89,7 +94,8 @@ typedef enum {
     NSLog(@"%@",sourceApplication);
     NSLog(@"%@",self.redirectUri);
     
-    NSString *scheme = [self.redirectUri stringByReplacingOccurrencesOfString:@":" withString:@""];
+    NSString *scheme = [self.redirectUri stringByReplacingOccurrencesOfString:@"://" withString:@""];
+    NSLog(@"%@",scheme);
     
     if ([[url scheme] isEqualToString:scheme]) {
         // parse url 'xxx=ooo&' to dictionary
@@ -98,7 +104,6 @@ typedef enum {
         NSMutableDictionary *parametersStringDictionary = [[NSMutableDictionary alloc] init];
         
         
-        NSLog(@"%@",parametersStringDictionary);
         
         for (NSString *keyValuePair in urlComponents) {
             NSArray *pairComponents = [keyValuePair componentsSeparatedByString:@"="];
@@ -107,6 +112,9 @@ typedef enum {
             
             [parametersStringDictionary setObject:value forKey:key];
         }
+        
+        NSLog(@"%@",parametersStringDictionary);
+
         
         if (parametersStringDictionary[@"#access_token"]) {
             self.token = parametersStringDictionary[@"#access_token"];
@@ -127,12 +135,13 @@ typedef enum {
 }
 
 - (void)userInformationWithID:(instagramUserID)userID comepletion:(void (^)(NSDictionary *response))complete failure:(void (^)(NSError *error, NSString *message))failure {
+    NSLog(@"????");
     //新的開始  清掉next page;
     nextPageUrl = nil;
     
     //https://api.instagram.com/v1/users/{user-id}
     NSString *url = [NSString stringWithFormat:@"%@/users/", kAPIBaseURL];
-    NSLog(@"%@",url);
+    NSLog(@"url :%@",url);
     
     [self connectWithHTTPMethod:igCRUDMethod_GET URLString:url IDString:userID parameters:@{ @"access_token" : self.token } alertWithError:NO success:^(AFHTTPRequestOperation *operation, id response) {
         NSLog(@"success");
@@ -300,7 +309,6 @@ typedef enum {
 }
 
 - (NSString *)token {
-    NSLog(@"%@", [[NSUserDefaults standardUserDefaults] objectForKey:kKeyOfTokenWithUserDefault]);
     return [[NSUserDefaults standardUserDefaults] objectForKey:kKeyOfTokenWithUserDefault];
 }
 
@@ -320,7 +328,7 @@ typedef enum {
         NSString *cfBundleURLSchemes = dict[@"CFBundleURLSchemes"][0];
         
         if ([cfBundleURLSchemes rangeOfString:self.clientID].location != NSNotFound) {
-            return [NSString stringWithFormat:@"%@:", cfBundleURLSchemes];
+            return [NSString stringWithFormat:@"%@://", cfBundleURLSchemes];
         }
     }
     return nil;
