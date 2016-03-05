@@ -14,9 +14,9 @@
 		9EC4B3341AF380FB005CE5D8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9EC4B3321AF380FB005CE5D8 /* Main.storyboard */; };
 		9EC4B3361AF380FB005CE5D8 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9EC4B3351AF380FB005CE5D8 /* Images.xcassets */; };
 		9EC4B3391AF380FB005CE5D8 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9EC4B3371AF380FB005CE5D8 /* LaunchScreen.xib */; };
-		9EC4B3501AF3810F005CE5D8 /* LOInstagram.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EC4B34F1AF3810F005CE5D8 /* LOInstagram.m */; };
 		9EC4B3561AF3D9BF005CE5D8 /* infoPlist.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EC4B3551AF3D9BF005CE5D8 /* infoPlist.png */; };
 		9EC4B3581AF3DCF6005CE5D8 /* InstagramClient.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EC4B3571AF3DCF6005CE5D8 /* InstagramClient.png */; };
+		9EDFB2AD1C8B0E0100385D5A /* LOInstagram.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EDFB2AC1C8B0E0100385D5A /* LOInstagram.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,10 +32,10 @@
 		9EC4B3331AF380FB005CE5D8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		9EC4B3351AF380FB005CE5D8 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		9EC4B3381AF380FB005CE5D8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
-		9EC4B34E1AF3810F005CE5D8 /* LOInstagram.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LOInstagram.h; path = ../LOInstagram.h; sourceTree = "<group>"; };
-		9EC4B34F1AF3810F005CE5D8 /* LOInstagram.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LOInstagram.m; path = ../LOInstagram.m; sourceTree = "<group>"; };
 		9EC4B3551AF3D9BF005CE5D8 /* infoPlist.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = infoPlist.png; sourceTree = "<group>"; };
 		9EC4B3571AF3DCF6005CE5D8 /* InstagramClient.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = InstagramClient.png; sourceTree = "<group>"; };
+		9EDFB2AB1C8B0E0100385D5A /* LOInstagram.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LOInstagram.h; path = ../../Pod/Classes/LOInstagram.h; sourceTree = "<group>"; };
+		9EDFB2AC1C8B0E0100385D5A /* LOInstagram.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LOInstagram.m; path = ../../Pod/Classes/LOInstagram.m; sourceTree = "<group>"; };
 		C6CF5BC4431D984FE0382A1E /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -123,8 +123,8 @@
 		9EC4B3531AF38128005CE5D8 /* class */ = {
 			isa = PBXGroup;
 			children = (
-				9EC4B34E1AF3810F005CE5D8 /* LOInstagram.h */,
-				9EC4B34F1AF3810F005CE5D8 /* LOInstagram.m */,
+				9EDFB2AB1C8B0E0100385D5A /* LOInstagram.h */,
+				9EDFB2AC1C8B0E0100385D5A /* LOInstagram.m */,
 			);
 			name = class;
 			sourceTree = "<group>";
@@ -150,6 +150,7 @@
 				9EC4B3221AF380FB005CE5D8 /* Frameworks */,
 				9EC4B3231AF380FB005CE5D8 /* Resources */,
 				26088DDD15CAD5FDB5DCB8EC /* Copy Pods Resources */,
+				87184E74517DCAC431D242B1 /* Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -238,6 +239,21 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
+		87184E74517DCAC431D242B1 /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -246,9 +262,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				9EC4B3311AF380FB005CE5D8 /* ViewController.m in Sources */,
+				9EDFB2AD1C8B0E0100385D5A /* LOInstagram.m in Sources */,
 				9EC4B32E1AF380FB005CE5D8 /* AppDelegate.m in Sources */,
 				9EC4B32B1AF380FB005CE5D8 /* main.m in Sources */,
-				9EC4B3501AF3810F005CE5D8 /* LOInstagram.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

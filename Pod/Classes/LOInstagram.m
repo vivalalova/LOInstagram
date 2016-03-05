@@ -13,13 +13,13 @@ LOInstagram *instagramHelper;
 
 typedef void (^LoginCompleteHandler)(BOOL success, NSString *errorReason);
 
-typedef enum {
+typedef NS_ENUM (unsigned int, igCRUDMethod) {
     igCRUDMethod_GET,
     igCRUDMethod_POST,
     igCRUDMethod_DELETE,
     igCRUDMethod_PATCH,
     igCRUDMethod_PUT
-}igCRUDMethod;
+};
 
 #define kInstagramBaseURL @"https://instagram.com"
 #define kAPIBaseURL @"https://api.instagram.com/v1"
@@ -43,7 +43,6 @@ typedef enum {
 //@property (strong, nonatomic) NSString *clientSecret;
 @property (strong, nonatomic) NSString *redirectUri;
 
-
 //info.plist url types
 @property (strong, nonatomic) NSArray *infoPlistUrlType;
 
@@ -66,7 +65,7 @@ typedef enum {
     return instagramHelper;
 }
 
-+(void)logout{
++ (void)logout {
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:kKeyOfTokenWithUserDefault];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
@@ -89,37 +88,34 @@ typedef enum {
     // user denied example  :
     // "ig75655b039682459099fcf30cfad1990f:?error_reason=user_denied&error=access_denied&error_description=The+user+denied+your+request.";
     
-    NSLog(@"%@",application);
-    NSLog(@"%@",url);
-    NSLog(@"%@",sourceApplication);
-    NSLog(@"%@",self.redirectUri);
+//    NSLog(@"%@", application);
+//    NSLog(@"%@", url);
+//    NSLog(@"%@", sourceApplication);
+//    NSLog(@"%@", self.redirectUri);
     
     NSString *scheme = [self.redirectUri stringByReplacingOccurrencesOfString:@"://" withString:@""];
-    NSLog(@"%@",scheme);
+//    NSLog(@"%@", scheme);
     
-    if ([[url scheme] isEqualToString:scheme]) {
+    if ([url.scheme isEqualToString:scheme]) {
         // parse url 'xxx=ooo&' to dictionary
-        NSString *parametersString = [[url resourceSpecifier] stringByReplacingOccurrencesOfString:@"?" withString:@""];
+        NSString *parametersString = [url.resourceSpecifier stringByReplacingOccurrencesOfString:@"?" withString:@""];
         NSArray *urlComponents = [parametersString componentsSeparatedByString:@"&"];
         NSMutableDictionary *parametersStringDictionary = [[NSMutableDictionary alloc] init];
         
-        
-        
         for (NSString *keyValuePair in urlComponents) {
             NSArray *pairComponents = [keyValuePair componentsSeparatedByString:@"="];
-            NSString *key = [[pairComponents firstObject] stringByRemovingPercentEncoding];
-            NSString *value = [[pairComponents lastObject] stringByRemovingPercentEncoding];
+            NSString *key = [pairComponents.firstObject stringByRemovingPercentEncoding];
+            NSString *value = [pairComponents.lastObject stringByRemovingPercentEncoding];
             
-            [parametersStringDictionary setObject:value forKey:key];
+            parametersStringDictionary[key] = value;
         }
         
-        NSLog(@"%@",parametersStringDictionary);
-
+//        NSLog(@"%@", parametersStringDictionary);
         
         if (parametersStringDictionary[@"#access_token"]) {
             self.token = parametersStringDictionary[@"#access_token"];
             
-            NSLog(@"NICE!!!  token :%@",self.token);
+            NSLog(@"NICE!!!  token :%@", self.token);
             loginCompleteHandler(YES, nil);
             return YES;
         }
@@ -135,13 +131,11 @@ typedef enum {
 }
 
 - (void)userInformationWithID:(instagramUserID)userID comepletion:(void (^)(NSDictionary *response))complete failure:(void (^)(NSError *error, NSString *message))failure {
-    NSLog(@"????");
     //新的開始  清掉next page;
     nextPageUrl = nil;
     
     //https://api.instagram.com/v1/users/{user-id}
     NSString *url = [NSString stringWithFormat:@"%@/users/", kAPIBaseURL];
-    NSLog(@"url :%@",url);
     
     [self connectWithHTTPMethod:igCRUDMethod_GET URLString:url IDString:userID parameters:@{ @"access_token" : self.token } alertWithError:NO success:^(AFHTTPRequestOperation *operation, id response) {
         NSLog(@"success");
@@ -298,7 +292,7 @@ typedef enum {
     [[[UIAlertView alloc] initWithTitle:@"ERROR" message:message delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
 }
 
-- (NSString *)parseErrorUserInfo:(NSError *)error {    
+- (NSString *)parseErrorUserInfo:(NSError *)error {
     return error.userInfo[@"NSLocalizedDescription"];
 }
 

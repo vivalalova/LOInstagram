@@ -1,40 +1,29 @@
-## LOInstagram
+# LOInstagram
 
-This allows you to get instagram auto of user in your app.
-Learn more at https://instagram.com/developer/authentication/ 
+[![CI Status](http://img.shields.io/travis/vivalalova/LOInstagram.svg?style=flat)](https://travis-ci.org/vivalalova/LOInstagram)
+[![Version](https://img.shields.io/cocoapods/v/LOInstagram.svg?style=flat)](http://cocoapods.org/pods/LOInstagram)
+[![License](https://img.shields.io/cocoapods/l/LOInstagram.svg?style=flat)](http://cocoapods.org/pods/LOInstagram)
+[![Platform](https://img.shields.io/cocoapods/p/LOInstagram.svg?style=flat)](http://cocoapods.org/pods/LOInstagram)
 
-Now just implemented about 
+## Usage
 
-* Authentication 
-* User base information
-* Recent media published by user 
+To run the example project, clone the repo, and run `pod install` from the Example directory first.
 
-####TRY IT
-----------------------
-* Add LOInstagram.h and LOInstagram.m to your project
-* Add AFNetworking to your project
-* Build to check if error
-* Create a Instagram app on instagram https://instagram.com/developer/clients/manage/
-	* REDIRECT URI = " ig{Client_id}:// " , like following
-	* ![enter image description here](./instagram/InstagramClient.png?raw=true)
-*  Modify info.plist of your project like following
-	* ![enter image description here](./instagram/infoPlist.png?raw=true)
+## Requirements
 
-AppDelegate.m
-```objc
--(BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation{
-    return [[LOInstagram shareInstance] application:application openURL:url sourceApplication:sourceApplication annotation:annotation];
-}
+## Installation
+
+LOInstagram is available through [CocoaPods](http://cocoapods.org). To install
+it, simply add the following line to your Podfile:
+
+```ruby
+pod "LOInstagram"
 ```
 
-And others just like the example in  ViewController.m
-```
-[[LOInstagram shareInstance] loginWithScope:@[@"basic",@"comments",@"likes",@"relationships"] Completion:^(BOOL success, NSString *errorReason) {
+## Author
 
-}];
-```
+vivalalova, vivalalova0@gmail.com
 
-####feedback
------------------
-If any suggest,proposal , or bug .
-Please let us know https://github.com/vivalalova/LOInstagram/issues
+## License
+
+LOInstagram is available under the MIT license. See the LICENSE file for more info.
