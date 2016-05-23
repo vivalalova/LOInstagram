@@ -32,6 +32,9 @@ typedef NS_ENUM (unsigned int, igCRUDMethod) {
 #define NSLog(s, ...)
 #endif
 
+#define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
+
+
 @interface LOInstagram () {
     LoginCompleteHandler loginCompleteHandler;
     
@@ -77,9 +80,17 @@ typedef NS_ENUM (unsigned int, igCRUDMethod) {
     NSString *scopesString = [[scopes valueForKey:@"description"] componentsJoinedByString:@"+"];
     
     NSString *url = [NSString stringWithFormat:@"%@?client_id=%@&redirect_uri=%@&scope=%@&response_type=%@", authURL, self.clientID, self.redirectUri, scopesString, kToken];
+  
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"9.0")) {
     
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:url]];
+      [self.delegate instagramLoginBySFSafari: [[NSURL alloc]initWithString: url]];
+      
+    } else {
     
+      [[UIApplication sharedApplication] openURL:[NSURL URLWithString:url]];
+    
+    }
+  
     //指過去  然後等呼叫;
     loginCompleteHandler = complete;
 }
