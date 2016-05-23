@@ -11,9 +11,16 @@
 
 #define kSelf @"self"
 //to acess current user ,  @"self" instead @"user-id"
+
+@protocol LOInstagramDelegate <NSObject>
+
+- (void)instagramLoginBySFSafari: (NSURL *)url;
+
+@end
+
 typedef NSString *instagramUserID;
 @interface LOInstagram : NSObject
-
+@property id <LOInstagramDelegate> delegate;
 @property (strong, nonatomic) NSString *token;
 
 + (BOOL)accessToken;
